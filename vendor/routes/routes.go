@@ -15,5 +15,6 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	route.GET("/customers", controllers.ListCustomers)
 	route.GET("/customers/:id", controllers.FindCustomer)
 	route.POST("/customers", controllers.CreateCustomer)
+	route.DELETE("/customers/:id", controllers.DeleteCustomer)
 	return route
 }
