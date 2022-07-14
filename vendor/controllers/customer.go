@@ -19,6 +19,15 @@ type CreateCustomerInput struct {
 	Date          string `json:"date"`
 }
 
+type UpdateCustomerInput struct {
+	Name          string `json:"customername"`
+	ContactNumber string `json:"customeraddress"`
+	Address       string `json:"customercontno"`
+	TotalBuy      string `json:"totalbuy"`
+	CreatorID     string `json:"creatorid"`
+	Date          string `json:"date"`
+}
+
 //GET /customer gets all customers in the table
 func ListCustomers(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
@@ -59,6 +68,36 @@ func CreateCustomer(c *gin.Context) {
 	db.Create(&customer)
 
 	c.JSON(http.StatusOK, gin.H{"data": customer})
+}
+
+//Update Customer data
+func UpdateCustomer(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var customer models.Customer
+	if err := db.Where("id = $1", c.Param("id")).First(&customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	var input UpdateCustomerInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	currentDate := time.Now().Format("19-10-2021")
+	date, _ := time.Parse(currentDate, input.Date)
+	var updatedInput models.Customer
+	updatedInput.Name = input.Name
+	updatedInput.ContactNumber = input.ContactNumber
+	updatedInput.Address = input.Address
+	updatedInput.TotalBuy = input.TotalBuy
+	updatedInput.CreatorID = input.CreatorID
+	updatedInput.Date = date
+
+	db.Model(&customer).Updates(updatedInput)
+	c.JSON(http.StatusOK, gin.H{"data": customer})
+
 }
 
 func DeleteCustomer(c *gin.Context) {
