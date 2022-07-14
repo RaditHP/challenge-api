@@ -13,5 +13,6 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 		c.Set("db", db)
 	})
 	route.GET("/customers", controllers.ListCustomers)
+	route.GET("/customers/:id", controllers.FindCustomer)
 	return route
 }
