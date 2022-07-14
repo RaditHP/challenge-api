@@ -14,5 +14,6 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	})
 	route.GET("/customers", controllers.ListCustomers)
 	route.GET("/customers/:id", controllers.FindCustomer)
+	route.POST("/customers", controllers.CreateCustomer)
 	return route
 }
