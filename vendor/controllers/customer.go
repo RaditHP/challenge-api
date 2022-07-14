@@ -41,6 +41,7 @@ func FindCustomer(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": customer})
 }
 
+// create a new Customer entry
 func CreateCustomer(c *gin.Context) {
 	var input CreateCustomerInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -58,4 +59,16 @@ func CreateCustomer(c *gin.Context) {
 	db.Create(&customer)
 
 	c.JSON(http.StatusOK, gin.H{"data": customer})
+}
+
+func DeleteCustomer(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var customer models.Customer
+	if err := db.Where("id = $1", c.Param("id")).First(&customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+	db.Delete(&customer)
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
 }
