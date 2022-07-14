@@ -1,5 +1,14 @@
 package main
 
+import (
+	"models"
+	"routes"
+)
+
 func main() {
-	print("This is the real deal")
+	db := models.SetupDB()
+	db.AutoMigrate(&models.Customer{})
+
+	route := routes.SetupRoutes(db)
+	route.Run()
 }
