@@ -12,8 +12,8 @@ import (
 
 type CreateCustomerInput struct {
 	Name          string `json:"customername"`
-	ContactNumber string `json:"customeraddress"`
-	Address       string `json:"customercontno"`
+	ContactNumber string `json:"customercontno"`
+	Address       string `json:"customeraddress"`
 	TotalBuy      string `json:"totalbuy"`
 	CreatorID     string `json:"creatorid"`
 	Date          string `json:"date"`
