@@ -19,5 +19,5 @@ type Sell struct {
 	SellerID         int       `json:sellerid`
 	SellDate         time.Time `json:selldate`
 	CustomerID       uint      `gorm:"column:customerid"`
-	Customer         Customer
+	//Customer         Customer
 }
