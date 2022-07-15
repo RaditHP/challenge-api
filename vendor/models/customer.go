@@ -12,4 +12,5 @@ type Customer struct {
 	TotalBuy      string    `json:"totalbuy"`
 	CreatorID     string    `json:"creatorid"`
 	Date          time.Time `json:"date"`
+	Sells         []Sell    `json:selldata`
 }
