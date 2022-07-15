@@ -9,7 +9,7 @@ import (
 type Sell struct {
 	gorm.Model
 	//ID               uint      `json:id gorm:"primary_key"`
-	sellID           uint      `json:sellid`
+	sellID           int       `json:sellid`
 	ProductID        string    `json:productid`
 	PursePrice       float64   `json:purseprice`
 	SellPrice        float64   `json:sellprice`
