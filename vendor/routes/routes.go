@@ -21,5 +21,6 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	//route for Sell table
 	route.GET("/sell", controllers.ListSell)
 	route.GET("/sell/:id", controllers.GetSell)
+	route.POST("/sell", controllers.CreateSell)
 	return route
 }
