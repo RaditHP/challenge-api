@@ -52,10 +52,10 @@ func CreateSell(c *gin.Context) {
 		return
 	}
 
-	// sell := models.Sell{sellID: input.sellID,
-	// 	ProductID: input.ProductID, PursePrice: input.PursePrice}
+	sell := models.Sell{ProductID: input.ProductID, PursePrice: input.PursePrice,
+		SellPrice: input.SellPrice, Quantity: input.Quantity, TotalPrice: input.TotalPrice, WarrantyVoidDate: input.WarrantyVoidDate, SellerID: input.SellerID, CustomerID: input.CustomerID}
 
-	// db := c.MustGet("db").(*gorm.DB)
-	// db.Create(&sell)
-	// c.JSON(http.StatusOK, gin.H{"data": sell})
+	db := c.MustGet("db").(*gorm.DB)
+	db.Create(&sell)
+	c.JSON(http.StatusOK, gin.H{"data": sell})
 }
