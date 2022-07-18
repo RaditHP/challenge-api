@@ -10,7 +10,18 @@ import (
 )
 
 type CreateSellInput struct {
-	sellID           uint      `json:sellid`
+	ProductID        string    `json:productid`
+	PursePrice       float64   `json:purseprice`
+	SellPrice        float64   `json:sellprice`
+	Quantity         int       `json:sellquantity`
+	TotalPrice       float64   `json:selltotalprice`
+	WarrantyVoidDate string    `json:sellwarrantyvoiddate`
+	SellerID         int       `json:sellerid`
+	SellDate         time.Time `json:selldate`
+	CustomerID       uint      `gorm:"column:customerid"`
+}
+
+type UpdateSellInput struct {
 	ProductID        string    `json:productid`
 	PursePrice       float64   `json:purseprice`
 	SellPrice        float64   `json:sellprice`
@@ -58,6 +69,38 @@ func CreateSell(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	db.Create(&sell)
 	c.JSON(http.StatusOK, gin.H{"data": sell})
+}
+
+//Update sell data
+
+func UpdateSell(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var sell models.Sell
+	if err := db.Where("id = $1", c.Param("id")).First(&sell).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	var input UpdateSellInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	var updatedInput models.Sell
+
+	updatedInput.ProductID = input.ProductID
+	updatedInput.PursePrice = input.PursePrice
+	updatedInput.SellPrice = input.SellPrice
+	updatedInput.Quantity = input.Quantity
+	updatedInput.TotalPrice = input.TotalPrice
+	updatedInput.WarrantyVoidDate = input.WarrantyVoidDate
+	updatedInput.SellerID = input.SellerID
+	updatedInput.CustomerID = input.CustomerID
+	db.Model(&sell).Updates(updatedInput)
+	c.JSON(http.StatusOK, gin.H{"data": sell})
+
 }
 
 //Delete a Sell Data
