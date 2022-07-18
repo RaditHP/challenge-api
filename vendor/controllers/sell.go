@@ -59,3 +59,15 @@ func CreateSell(c *gin.Context) {
 	db.Create(&sell)
 	c.JSON(http.StatusOK, gin.H{"data": sell})
 }
+
+//Delete a Sell Data
+func DeleteSell(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var sell models.Sell
+	if err := db.Where("id = $1", c.Param("id")).First(&sell).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+	db.Delete(&sell)
+	c.JSON(http.StatusOK, gin.H{"data": true})
+}
