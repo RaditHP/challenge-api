@@ -17,6 +17,7 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	route.POST("/customers", controllers.CreateCustomer)
 	route.PATCH("/customers/:id", controllers.UpdateCustomer)
 	route.DELETE("/customers/:id", controllers.DeleteCustomer)
+	route.GET("/customers/:limit", controllers.FindCustomerLimit)
 
 	//route for Sell table
 	route.GET("/sell", controllers.ListSell)

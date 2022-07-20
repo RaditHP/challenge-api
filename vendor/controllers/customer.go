@@ -50,6 +50,17 @@ func FindCustomer(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": customer})
 }
 
+// Get customer table limit data returned
+func FindCustomerLimit(c *gin.Context) {
+	var customers []models.Customer
+
+	db := c.MustGet("db").(*gorm.DB)
+
+	db.Limit(c.Param("limit")).Find(&customers)
+
+	c.JSON(http.StatusOK, gin.H{"data": customers})
+}
+
 // create a new Customer entry
 func CreateCustomer(c *gin.Context) {
 	var input CreateCustomerInput
