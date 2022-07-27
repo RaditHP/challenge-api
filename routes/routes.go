@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"controllers"
+	"challenge-api/controllers"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -17,7 +17,7 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	route.POST("/customers", controllers.CreateCustomer)
 	route.PATCH("/customers/:id", controllers.UpdateCustomer)
 	route.DELETE("/customers/:id", controllers.DeleteCustomer)
-	route.GET("/customers/:limit", controllers.FindCustomerLimit)
+	// route.GET("/customers/:limit", controllers.FindCustomerLimit)
 
 	//route for Sell table
 	route.GET("/sell", controllers.ListSell)

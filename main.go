@@ -1,8 +1,8 @@
 package main
 
 import (
-	"models"
-	"routes"
+	"challenge-api/models"
+	"challenge-api/routes"
 )
 
 func main() {

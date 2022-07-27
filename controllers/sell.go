@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"models"
+	"challenge-api/models"
 	"net/http"
 	"time"
 
