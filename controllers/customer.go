@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"models"
+	"challenge-api/models"
 	"time"
 
 	"net/http"
@@ -21,8 +21,8 @@ type CreateCustomerInput struct {
 
 type UpdateCustomerInput struct {
 	Name          string `json:"customername"`
-	ContactNumber string `json:"customeraddress"`
-	Address       string `json:"customercontno"`
+	ContactNumber string `json:"customercontno"`
+	Address       string `json:"customeraddress"`
 	TotalBuy      string `json:"totalbuy"`
 	CreatorID     string `json:"creatorid"`
 	Date          string `json:"date"`
@@ -48,6 +48,17 @@ func FindCustomer(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": customer})
+}
+
+// Get customer table limit data returned
+func FindCustomerLimit(c *gin.Context) {
+	var customers []models.Customer
+
+	db := c.MustGet("db").(*gorm.DB)
+
+	db.Limit(c.Param("limit")).Find(&customers)
+
+	c.JSON(http.StatusOK, gin.H{"data": customers})
 }
 
 // create a new Customer entry
