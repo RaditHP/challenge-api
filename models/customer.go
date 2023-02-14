@@ -14,3 +14,11 @@ type Customer struct {
 	Date          time.Time `json:"date"`
 	Sells         []Sell
 }
+
+type CustResp struct {
+	Data []Customer `json:"data"`
+}
+
+type CustSingleResp struct {
+	Data Customer `json:"data"`
+}

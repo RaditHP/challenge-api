@@ -33,6 +33,16 @@ func ListCustomers(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customers []models.Customer
 	db.Find(&customers)
+	// This is used to return selected columns
+	// db.Select([]string{"Name", "Address", "ID"}).Find(&customers)
+
+	c.JSON(http.StatusOK, gin.H{"data": customers})
+
+}
+func ListCustomersV2(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var customers []models.Customer
+	db.Find(&customers)
 
 	c.JSON(http.StatusOK, gin.H{"data": customers})
 }
@@ -79,6 +89,36 @@ func CreateCustomer(c *gin.Context) {
 	db.Create(&customer)
 
 	c.JSON(http.StatusOK, gin.H{"data": customer})
+}
+
+//Update Customer data
+func UpdateCustomerPut(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var customer models.Customer
+	if err := db.Where("id = $1", c.Param("id")).First(&customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	var input UpdateCustomerInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Data Not Found!"})
+		return
+	}
+
+	currentDate := time.Now().Format("19-10-2021")
+	date, _ := time.Parse(currentDate, input.Date)
+	var updatedInput models.Customer
+	updatedInput.Name = input.Name
+	updatedInput.ContactNumber = input.ContactNumber
+	updatedInput.Address = input.Address
+	updatedInput.TotalBuy = input.TotalBuy
+	updatedInput.CreatorID = input.CreatorID
+	updatedInput.Date = date
+
+	db.Model(&customer).Updates(updatedInput)
+	c.JSON(http.StatusOK, gin.H{"data": customer})
+
 }
 
 //Update Customer data

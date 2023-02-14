@@ -15,6 +15,7 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	route.GET("/customers", controllers.ListCustomers)
 	route.GET("/customers/:id", controllers.FindCustomer)
 	route.POST("/customers", controllers.CreateCustomer)
+	route.PUT("/customers/:id", controllers.UpdateCustomerPut)
 	route.PATCH("/customers/:id", controllers.UpdateCustomer)
 	route.DELETE("/customers/:id", controllers.DeleteCustomer)
 	// route.GET("/customers/:limit", controllers.FindCustomerLimit)
@@ -25,5 +26,10 @@ func SetupRoutes(db *gorm.DB) *gin.Engine {
 	route.POST("/sell", controllers.CreateSell)
 	route.PATCH("/sell/:id", controllers.UpdateSell)
 	route.DELETE("/sell/:id", controllers.DeleteSell)
+
+	v11 := route.Group("/v1.1")
+	{
+		v11.GET("/customers", controllers.ListCustomersV2)
+	}
 	return route
 }
