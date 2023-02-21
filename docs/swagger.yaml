@@ -1,0 +1,155 @@
+basePath: /
+definitions:
+  controllers.CreateCustomerInput:
+    properties:
+      creatorid:
+        type: string
+      customeraddress:
+        type: string
+      customercontno:
+        type: string
+      customername:
+        type: string
+      date:
+        type: string
+      totalbuy:
+        type: string
+    type: object
+  controllers.UpdateCustomerInput:
+    properties:
+      creatorid:
+        type: string
+      customeraddress:
+        type: string
+      customercontno:
+        type: string
+      customername:
+        type: string
+      date:
+        type: string
+      totalbuy:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is my first attempt implementing Swagger
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms
+  title: Gin Swagger challenge api
+  version: "1.0"
+paths:
+  /customers:
+    get:
+      consumes:
+      - '*/*'
+      description: get a list of all the customers v2
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: show the list of all customers v2
+    post:
+      consumes:
+      - application/json
+      description: Create e new customer
+      parameters:
+      - description: Customer data JSON
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.CreateCustomerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+  /customers/{id}:
+    delete:
+      description: delete a customer data by id
+      parameters:
+      - description: ID to delete
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+    get:
+      consumes:
+      - '*/*'
+      description: get a list of all the customers v2
+      parameters:
+      - description: search customer by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+    patch:
+      consumes:
+      - application/json
+      description: update a customer data
+      parameters:
+      - description: Customer data JSON
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateCustomerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+    put:
+      consumes:
+      - application/json
+      description: update a customer data
+      parameters:
+      - description: Customer data JSON
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateCustomerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+schemes:
+- http
+swagger: "2.0"

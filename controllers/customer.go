@@ -29,6 +29,12 @@ type UpdateCustomerInput struct {
 }
 
 //GET /customer gets all customers in the table
+// @Summary show the list of all customers
+// @Description get a list of all the customers
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /customers [get]
 func ListCustomers(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customers []models.Customer
@@ -39,6 +45,13 @@ func ListCustomers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": customers})
 
 }
+
+// @Summary show the list of all customers v2
+// @Description get a list of all the customers v2
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /customers [get]
 func ListCustomersV2(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customers []models.Customer
@@ -48,6 +61,12 @@ func ListCustomersV2(c *gin.Context) {
 }
 
 // Get one customer with particular ID
+// @Description get a list of all the customers v2
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param id path string true "search customer by id"
+// @Router /customers/{id} [get]
 func FindCustomer(c *gin.Context) {
 	var customer models.Customer
 
@@ -61,17 +80,25 @@ func FindCustomer(c *gin.Context) {
 }
 
 // Get customer table limit data returned
-func FindCustomerLimit(c *gin.Context) {
-	var customers []models.Customer
 
-	db := c.MustGet("db").(*gorm.DB)
+// func FindCustomerLimit(c *gin.Context) {
+// 	var customers []models.Customer
 
-	db.Limit(c.Param("limit")).Find(&customers)
+// 	db := c.MustGet("db").(*gorm.DB)
 
-	c.JSON(http.StatusOK, gin.H{"data": customers})
-}
+// 	db.Limit(c.Param("limit")).Find(&customers)
+
+// 	c.JSON(http.StatusOK, gin.H{"data": customers})
+// }
 
 // create a new Customer entry
+// Create e new customer
+// @Description Create e new customer
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param customer body CreateCustomerInput true "Customer data JSON"
+// @Router /customers [post]
 func CreateCustomer(c *gin.Context) {
 	var input CreateCustomerInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -92,6 +119,13 @@ func CreateCustomer(c *gin.Context) {
 }
 
 //Update Customer data
+// Update all customer data
+// @Description update a customer data
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param customer body UpdateCustomerInput true "Customer data JSON"
+// @Router /customers/{id} [put]
 func UpdateCustomerPut(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customer models.Customer
@@ -122,6 +156,12 @@ func UpdateCustomerPut(c *gin.Context) {
 }
 
 //Update Customer data
+// @Description update a customer data
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param customer body UpdateCustomerInput true "Customer data JSON"
+// @Router /customers/{id} [patch]
 func UpdateCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customer models.Customer
@@ -151,6 +191,12 @@ func UpdateCustomer(c *gin.Context) {
 
 }
 
+//Delete Customer data
+// @Description delete a customer data by id
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param id path string true "ID to delete"
+// @Router /customers/{id} [delete]
 func DeleteCustomer(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 	var customer models.Customer
